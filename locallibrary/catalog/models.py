@@ -75,6 +75,12 @@ class Book(models.Model):
     # language
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
+    # string consisting of three values from genre field
+    def display_genre(self):
+        """Create a string for the Genre. This is required to display genre in Admin."""
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
+    display_genre.short_description = 'Genre'
+
     def __str__(self):
         """String for representing the Model object."""
         return self.title
@@ -82,6 +88,7 @@ class Book(models.Model):
     def get_absolute_url(self):
         """Returns the URL to access a detail record for this book."""
         return reverse('book-detail', args=[str(self.id)])
+    
 
 import uuid # Required for unique book instances
 
