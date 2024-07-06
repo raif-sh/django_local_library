@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from .models import Book, Author, BookInstance, Genre
 
@@ -29,3 +31,21 @@ def index(request):
 
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
+
+from django.views import generic
+
+class BookListView(generic.ListView):
+    model = Book
+
+    # def get_queryset(self):
+    #     return Book.objects.filter(title__icontains='war')[:5] # Get 5 books containing the title war
+    
+class BookDetailView(generic.DetailView):
+    model = Book
+
+class AuthorListView(generic.ListView):     
+    model = Author     
+    paginate_by = 10  
+    
+class AuthorDetailView(generic.DetailView):     
+    model = Author 
